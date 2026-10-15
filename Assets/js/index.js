@@ -1,6 +1,6 @@
-// Book Your Appointment Section
+
 document
-  .getElementById("appointmentForm")
+  .getElementById("booking")
   .addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -12,15 +12,16 @@ document
 
 Name: ${name}
 Phone: ${phone}
-Email: ${email}`;
+Email: ${email || "Not provided"}`;
 
     const whatsappURL =
-      "https://wa.me/919927150034?text=" + encodeURIComponent(message);
+      "https://wa.me/919927150034?text=" +
+      encodeURIComponent(message);
 
     window.open(whatsappURL, "_blank");
   });
 
-// Frequently Asked Questions Section
+  // Frequently Asked Questions Section
 const menuBtn = document.getElementById("menuBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 
@@ -28,29 +29,46 @@ menuBtn.addEventListener("click", () => {
   mobileMenu.classList.toggle("hidden");
 });
 
-const faqBtns = document.querySelectorAll(".faq-btn");
+// Frequently Asked Questions Section
+document.addEventListener("DOMContentLoaded", () => {
+  const items = document.querySelectorAll(".faq-section .faq-item");
+  const buttons = [...items].map((item) => item.querySelector(".faq-question"));
 
-faqBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const content = btn.nextElementSibling;
+  const setOpen = (item, open) => {
+    item.classList.toggle("active", open);
+    item.querySelector(".faq-question").setAttribute("aria-expanded", String(open));
+  };
 
-    // close all
-    document.querySelectorAll(".faq-content").forEach((c) => {
-      if (c !== content) c.classList.add("hidden");
+  items.forEach((item) => {
+    item.querySelector(".faq-question").addEventListener("click", () => {
+      const willOpen = !item.classList.contains("active");
+
+      // close all others (only one open at a time)
+      items.forEach((other) => {
+        if (other !== item) setOpen(other, false);
+      });
+
+      setOpen(item, willOpen);
     });
+  });
 
-    // toggle current
-    content.classList.toggle("hidden");
+  // Keyboard navigation: Arrow Up/Down, Home, End
+  buttons.forEach((btn, i) => {
+    btn.addEventListener("keydown", (e) => {
+      const targets = {
+        ArrowDown: i + 1,
+        ArrowUp: i - 1,
+        Home: 0,
+        End: buttons.length - 1,
+      };
+      if (e.key in targets) {
+        e.preventDefault();
+        buttons[(targets[e.key] + buttons.length) % buttons.length].focus();
+      }
+    });
   });
 });
 
-const faqItems = document.querySelectorAll(".faq-item");
-
-faqItems.forEach((item) => {
-  item.querySelector(".faq-question").addEventListener("click", () => {
-    item.classList.toggle("active");
-  });
-});
 
 
 console.log("Welcome On Index.js")

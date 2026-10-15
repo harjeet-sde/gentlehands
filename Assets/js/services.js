@@ -63,3 +63,11 @@ Email: ${email}`;
 
   window.location.href = url;
 }
+
+  // Frequently Asked Questions Section
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+
+menuBtn.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+});

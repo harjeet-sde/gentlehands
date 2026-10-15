@@ -27,3 +27,10 @@ Condition: ${message}`;
 
     window.open(url, "_blank");
   });
+  // Frequently Asked Questions Section
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+
+menuBtn.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+});
